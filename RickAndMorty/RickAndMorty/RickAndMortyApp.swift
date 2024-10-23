@@ -6,10 +6,15 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 @main
 struct RickAndMortyApp: App {
 	
+	init() {
+		let cache = ImageCache.default
+		cache.memoryStorage.config.totalCostLimit = 1024 * 1024 * 30
+	}
 	
     var body: some Scene {
         WindowGroup {
