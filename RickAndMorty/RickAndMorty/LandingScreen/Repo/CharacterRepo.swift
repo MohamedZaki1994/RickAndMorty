@@ -8,9 +8,11 @@
 import Foundation
 
 class CharacterRepo {
-	var target = CharacterTarget()
+	var target: CharacterTarget
 	var network: NetworkService = NetworkService()
-	
+	init() {
+		target = CharacterTarget(endPoint: .allCharacters)
+	}
 	func fetch(page: Int) async throws -> CharacterModel {
 		target.page = page
 		return try await network.request(target: target)

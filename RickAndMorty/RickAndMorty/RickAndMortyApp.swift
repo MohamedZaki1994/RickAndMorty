@@ -22,16 +22,3 @@ struct RickAndMortyApp: App {
         }
     }
 }
-
-struct ContentView: View {
-	@State private var navigateToSwiftUIView = false
-	var body: some View {
-		NavigationStack {
-			MainListViewControllerRepresentable(navigateToSwiftUIView: $navigateToSwiftUIView)
-				.navigationTitle("Characters")
-				.navigationDestination(isPresented: $navigateToSwiftUIView) {
-								Text("123")
-							}
-		}
-	}
-}

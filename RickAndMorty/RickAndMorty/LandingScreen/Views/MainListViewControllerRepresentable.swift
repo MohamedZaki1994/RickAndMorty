@@ -9,11 +9,11 @@ import UIKit
 import SwiftUI
 
 struct MainListViewControllerRepresentable: UIViewControllerRepresentable {
-	@Binding var navigateToSwiftUIView: Bool
+	@Binding var characterId: Int?
 	
 	func makeUIViewController(context: Context) -> MainListViewController {
-		let vc = MainListViewController() {
-			context.coordinator.navigate()
+		let vc = MainListViewController() { id in
+			context.coordinator.navigate(id: id)
 		}
 		return vc
 	}
@@ -22,18 +22,18 @@ struct MainListViewControllerRepresentable: UIViewControllerRepresentable {
 	}
 	
 	func makeCoordinator() -> Coordinator {
-		Coordinator(navigateToSwiftUIView: $navigateToSwiftUIView)
+		Coordinator(characterId: $characterId)
 	}
 
 	class Coordinator: NSObject {
-		@Binding var navigateToSwiftUIView: Bool
+		@Binding var characterId: Int?
 
-		init(navigateToSwiftUIView: Binding<Bool>) {
-			self._navigateToSwiftUIView = navigateToSwiftUIView
+		init(characterId: Binding<Int?>) {
+			self._characterId = characterId
 		}
 
-		@objc func navigate() {
-			navigateToSwiftUIView = true
+		@objc func navigate(id: Int) {
+			characterId = id
 		}
 	}
 }

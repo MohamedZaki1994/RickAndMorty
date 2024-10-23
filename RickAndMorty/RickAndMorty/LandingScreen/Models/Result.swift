@@ -57,4 +57,10 @@ enum Status: String, Codable {
 	case alive = "Alive"
 	case dead = "Dead"
 	case unknown = "unknown"
+	
+	init(from decoder: any Decoder) throws {
+		let container = try decoder.singleValueContainer()
+		let value = try container.decode(String.self)
+		self = Status(rawValue: value) ?? .unknown
+	}
 }

@@ -9,11 +9,11 @@ import UIKit
 import SwiftUI
 
 class MainListViewController: UIViewController {
-	var onAction: (() -> Void?)?
+	var onAction: ((_ id: Int) -> Void?)?
 	let tableView = UITableView()
 	let viewModel = MainListViewModel()
 	
-	init(onAction: ( () -> Void?)? = nil) {
+	init(onAction: ( (_ id: Int) -> Void?)? = nil) {
 		self.onAction = onAction
 		super.init(nibName: nil, bundle: nil)
 	}
@@ -75,7 +75,9 @@ extension MainListViewController: UITableViewDelegate, UITableViewDataSource {
 	}
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		onAction?()
+		if let id = viewModel.model?.results[indexPath.row].id {
+			onAction?(id)
+		}
 	}
 	
 }
