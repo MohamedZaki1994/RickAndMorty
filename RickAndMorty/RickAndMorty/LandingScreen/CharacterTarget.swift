@@ -10,10 +10,14 @@ import Foundation
 class CharacterTarget: TargetProtocol {
 	var path: String
 	var page: Int?
+	var status: String?
 	
-	init(endPoint: CharacterTarget.Endpoints, page: Int? = nil) {
+	init(endPoint: CharacterTarget.Endpoints,
+		 page: Int? = nil,
+		 status: String? = nil) {
 		self.path = endPoint.path
 		self.page = page
+		self.status = status
 	}
 	
 	enum Endpoints {
@@ -31,9 +35,13 @@ class CharacterTarget: TargetProtocol {
 	}
 	
 	var queryParams: [String: String?]? {
+		var dic = [String: String?]()
 		if let page {
-			return ["page": String(page)]
+			dic["page"] = String(page)
 		}
-		return nil
+		if let status {
+			dic["status"] = status
+		}
+		return dic
 	}
 }

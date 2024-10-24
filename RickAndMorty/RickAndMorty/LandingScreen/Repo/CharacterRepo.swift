@@ -13,8 +13,11 @@ class CharacterRepo {
 	init() {
 		target = CharacterTarget(endPoint: .allCharacters)
 	}
-	func fetch(page: Int) async throws -> CharacterModel {
+	
+	func fetch(page: Int? = nil,
+			   filter: String? = nil) async throws -> CharacterModel {
 		target.page = page
+		target.status = filter
 		return try await network.request(target: target)
 	}
 }

@@ -53,7 +53,7 @@ enum Species: String, Codable {
 	}
 }
 
-enum Status: String, Codable {
+enum Status: String, Codable, CaseIterable {
 	case alive = "Alive"
 	case dead = "Dead"
 	case unknown = "unknown"
