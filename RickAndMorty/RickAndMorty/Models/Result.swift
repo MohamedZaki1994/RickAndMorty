@@ -5,21 +5,21 @@
 //  Created by Mohamed Zaki on 22/10/2024.
 //
 
-struct Result: Codable {
+struct Result: Codable, Equatable {
     let id: Int
     let name: String
     let status: Status
     let species: Species
-    let type: String
+    var type: String?
     let gender: Gender
-    let origin, location: Location
+	let location: Location
     let image: String
-    let episode: [String]
-    let url: String
-    let created: String
+    var episode: [String]?
+    var url: String?
+    var created: String?
 }
 
-enum Gender: String, Codable {
+enum Gender: String, Codable, Equatable {
 	case female = "Female"
 	case male = "Male"
 	case genderless = "Genderless"
@@ -32,12 +32,12 @@ enum Gender: String, Codable {
 	}
 }
 
-struct Location: Codable {
+struct Location: Codable, Equatable {
 	let name: String
 	let url: String
 }
 
-enum Species: String, Codable {
+enum Species: String, Codable, Equatable {
 	case alien = "Alien"
 	case human = "Human"
 	case humanoid = "Humanoid"

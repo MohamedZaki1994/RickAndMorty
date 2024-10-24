@@ -16,17 +16,14 @@ extension MainListViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if indexPath.row == (viewModel.model?.results.count ?? 0) - 1 {
 			Task {
-				do {
-					try await viewModel.loadMore()
-					DispatchQueue.main.async {
-						self.tableView.reloadData()
-					}
-				} catch {
-					print("error")
+				try await viewModel.loadMore()
+				DispatchQueue.main.async {
+					self.tableView.reloadData()
 				}
 			}
 		}
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+		cell.selectionStyle = .none
 		let model = viewModel.model?.results[indexPath.row]
 		let itemModel = ItemCellModel(name: model?.name, species: model?.species, image: model?.image)
 		cell.contentConfiguration = UIHostingConfiguration(content: {
@@ -34,5 +31,4 @@ extension MainListViewController: UITableViewDataSource {
 		})
 		return cell
 	}
-
 }

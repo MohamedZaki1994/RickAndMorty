@@ -5,7 +5,7 @@
 //  Created by Mohamed Zaki on 23/10/2024.
 //
 
-struct CharacterDetailsModel: Codable {
+struct CharacterDetailsModel: Codable, Equatable {
 	let id: Int
 	let status: String
 	var image: String

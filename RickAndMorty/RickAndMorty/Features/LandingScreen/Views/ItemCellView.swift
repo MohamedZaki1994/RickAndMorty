@@ -19,19 +19,7 @@ struct ItemCellView: View {
 	
 	var body: some View {
 		HStack {
-			if let image = model.image,
-			   let url = URL(string: image) {
-				KFImage.url(url)
-					.placeholder {
-						ProgressView()
-							.controlSize(.extraLarge)
-					}
-					.resizable()
-					.frame(width: 70, height: 70)
-					.clipShape(.rect(cornerRadius: 10))
-			} else {
-				ProgressView()
-			}
+			image
 			VStack(alignment: .leading) {
 				Text(model.name ?? "unknown")
 					.font(.system(size: 24, weight: .bold))
@@ -46,5 +34,21 @@ struct ItemCellView: View {
 		}
 		.padding()
 		.background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray))
+	}
+	
+	@ViewBuilder var image: some View {
+		if let image = model.image,
+		   let url = URL(string: image) {
+			KFImage.url(url)
+				.placeholder {
+					ProgressView()
+						.controlSize(.extraLarge)
+				}
+				.resizable()
+				.frame(width: 70, height: 70)
+				.clipShape(.rect(cornerRadius: 10))
+		} else {
+			ProgressView()
+		}
 	}
 }

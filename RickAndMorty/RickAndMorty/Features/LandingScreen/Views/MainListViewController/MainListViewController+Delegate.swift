@@ -14,5 +14,4 @@ extension MainListViewController: UITableViewDelegate {
 			onAction?(id)
 		}
 	}
-	
 }

@@ -9,19 +9,21 @@ import UIKit
 import SwiftUI
 
 class MainListViewController: UIViewController {
-	let viewModel = MainListViewModel()
+	let viewModel: MainListViewModelProtocol
 	var onAction: ((_ id: Int) -> Void?)?
 	let tableView = UITableView()
 	var stackView: UIStackView?
 
 	init(onAction: ( (_ id: Int) -> Void?)? = nil) {
 		self.onAction = onAction
+		viewModel = MainListViewModel()
 		super.init(nibName: nil, bundle: nil)
 	}
 	
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupButtons()
@@ -89,22 +91,43 @@ class MainListViewController: UIViewController {
 	
 	private func fetchData() {
 		Task {
-			try await viewModel.fetchData()
-			DispatchQueue.main.async {
-				self.tableView.reloadData()
+			do {
+				try await viewModel.fetchData(tag: nil)
+				DispatchQueue.main.async {
+					self.tableView.reloadData()
+				}
+			} catch {
+				showError()
 			}
 		}
 	}
 	
 	@objc func buttonTapped(_ sender: UIButton) {
 		Task {
-			try await viewModel.fetchData(tag: sender.tag)
-			DispatchQueue.main.async {
-				let indexPath = IndexPath(row: 0, section: 0)
-				self.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
-				self.tableView.reloadData()
+			do {
+				try await viewModel.fetchData(tag: sender.tag)
+				DispatchQueue.main.async {
+					let indexPath = IndexPath(row: 0, section: 0)
+					self.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+					self.tableView.reloadData()
+				}
+			} catch {
+				showError()
 			}
 		}
+	}
+	
+	func showError() {
+		let alert = UIAlertController(title: "Error", message: "error", preferredStyle: .alert)
+		
+		let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+		alert.addAction(okAction)
+		
+		let tryAction = UIAlertAction(title: "try again", style: .default) { _ in
+			self.fetchData()
+		}
+		alert.addAction(tryAction)
+		self.present(alert, animated: true, completion: nil)
 	}
 }
 
